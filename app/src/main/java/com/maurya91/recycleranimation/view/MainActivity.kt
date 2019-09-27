@@ -1,10 +1,11 @@
-package com.maurya91.recycleranimation
+package com.maurya91.recycleranimation.view
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.maurya91.recycleranimation.R
 
 import kotlinx.android.synthetic.main.activity_main.*
 
