@@ -4,8 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#eee"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.home.HomeActivity"
     tools:showIn="@layout/activity_home">
-
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/homeRecycler"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
