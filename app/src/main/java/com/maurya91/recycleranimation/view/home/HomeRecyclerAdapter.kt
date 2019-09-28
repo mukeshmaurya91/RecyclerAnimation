@@ -11,7 +11,7 @@ import com.maurya91.recycleranimation.common.adapter.BaseViewHolder
 import com.maurya91.recycleranimation.data.HomeData
 
 class HomeRecyclerAdapter : BaseAdapter<HomeData, HomeRecyclerAdapter.HomeItemHolder>() {
-
+    var lastPosition:Int=0
     override fun instantiateViewHolder(view: View): HomeItemHolder = HomeItemHolder(view)
 
     override fun getItemViewType(position: Int): Int = R.layout.item_home_layout
@@ -28,7 +28,7 @@ class HomeRecyclerAdapter : BaseAdapter<HomeData, HomeRecyclerAdapter.HomeItemHo
         val rootLayout: RelativeLayout = itemView.findViewById(R.id.rootLayout)
         val removeButton: ImageButton = itemView.findViewById(R.id.removeButton)
         override fun onBind(item: HomeData) {
-//            rootLayout.setBackgroundColor(item.color)
+//            rootLayout.setBackgroundColor(item.color)  // only enable if color values assigned in model
             removeButton.setOnClickListener {
                 getOnItemClickListener().invoke(
                     it,
@@ -36,13 +36,16 @@ class HomeRecyclerAdapter : BaseAdapter<HomeData, HomeRecyclerAdapter.HomeItemHo
                     adapterPosition
                 )
             }
-            val xTrans = ObjectAnimator.ofFloat(itemView, View.TRANSLATION_X, -1000f, 0f)
-            val yTrans = ObjectAnimator.ofFloat(itemView, View.TRANSLATION_Y, 1000f, 0f)
-            AnimatorSet().apply {
-                duration=200
-                play(xTrans).after(yTrans)
-                start()
+            if (lastPosition<adapterPosition) { //this fix animation when scrolling up
+                val xTrans = ObjectAnimator.ofFloat(itemView, View.TRANSLATION_X, -1000f, 0f)
+                val yTrans = ObjectAnimator.ofFloat(itemView, View.TRANSLATION_Y, 1000f, 0f)
+                AnimatorSet().apply {
+                    duration = 200
+                    play(xTrans).after(yTrans)
+                    start()
+                }
             }
+           lastPosition=adapterPosition
         }
 
     }
