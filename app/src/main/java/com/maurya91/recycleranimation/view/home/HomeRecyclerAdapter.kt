@@ -3,6 +3,8 @@ package com.maurya91.recycleranimation.view.home
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import com.maurya91.recycleranimation.R
@@ -11,7 +13,7 @@ import com.maurya91.recycleranimation.common.adapter.BaseViewHolder
 import com.maurya91.recycleranimation.data.HomeData
 
 class HomeRecyclerAdapter : BaseAdapter<HomeData, HomeRecyclerAdapter.HomeItemHolder>() {
-    var lastPosition:Int=0
+    var lastPosition: Int = 0
     override fun instantiateViewHolder(view: View): HomeItemHolder = HomeItemHolder(view)
 
     override fun getItemViewType(position: Int): Int = R.layout.item_home_layout
@@ -36,16 +38,32 @@ class HomeRecyclerAdapter : BaseAdapter<HomeData, HomeRecyclerAdapter.HomeItemHo
                     adapterPosition
                 )
             }
-            if (lastPosition<adapterPosition) { //this fix animation when scrolling up
-                val xTrans = ObjectAnimator.ofFloat(itemView, View.TRANSLATION_X, -1000f, 0f)
-                val yTrans = ObjectAnimator.ofFloat(itemView, View.TRANSLATION_Y, 1000f, 0f)
-                AnimatorSet().apply {
-                    duration = 200
-                    play(xTrans).after(yTrans)
-                    start()
-                }
+            if (lastPosition < adapterPosition) { //this fix animation when scrolling up
+                slideFromRight(itemView)
             }
-           lastPosition=adapterPosition
+            lastPosition = adapterPosition
+        }
+
+        fun fallDown(itemView: View) {
+
+        }
+
+        fun slideFromRight(itemView: View) {
+            val xTrans = ObjectAnimator.ofFloat(itemView, View.TRANSLATION_X, 1000f, 0f).apply {
+                interpolator = DecelerateInterpolator()
+            }
+//            val yTrans = ObjectAnimator.ofFloat(itemView, View.TRANSLATION_Y, 1000f, 0f)
+            val alpha = ObjectAnimator.ofFloat(itemView, View.ALPHA, 0.5f, 1f).apply {
+                interpolator = AccelerateInterpolator()
+            }
+            AnimatorSet().apply {
+                duration = 300
+                play(xTrans).with(alpha)
+                start()
+            }
+        }
+        fun slideFromBottom(itemView: View){
+
         }
 
     }
