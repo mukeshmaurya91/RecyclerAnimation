@@ -63,7 +63,17 @@ class HomeRecyclerAdapter : BaseAdapter<HomeData, HomeRecyclerAdapter.HomeItemHo
             }
         }
         fun slideFromBottom(itemView: View){
-
+            val yTrans = ObjectAnimator.ofFloat(itemView, View.TRANSLATION_Y, 1000f, 0f).apply {
+                interpolator = DecelerateInterpolator()
+            }
+            val alpha = ObjectAnimator.ofFloat(itemView, View.ALPHA, 0.5f, 1f).apply {
+                interpolator = AccelerateInterpolator()
+            }
+            AnimatorSet().apply {
+                duration = 300
+                play(yTrans).with(alpha)
+                start()
+            }
         }
 
     }
